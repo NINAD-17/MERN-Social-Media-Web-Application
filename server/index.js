@@ -15,6 +15,9 @@ import { register } from 'module';
 // PACKAGES DEFINED BY DEVELOPERS
 import { register } from './controllers/auth.js';
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+import postRoutes from './routes/post.js';
+import { verifyToken } from './middlewares/auth.js';
 
 // CONFIGURATIONS (ALL MIDDLEWARE AS WELL AS PACKAGE CONFIGURATIONS)
 const __filename = fileURLToPath(import.meta.url); // When you use type:module then it's reqired.
@@ -45,8 +48,11 @@ const upload = multer({storage});
 // upload.single middleware will upload picture locally in assets folder. And register is an actual function where's the code of register.
 app.post("/auth/register", upload.single("picture"), register); // If your wants to register then app will call this API // We've not added this route to 'routes' folder and import it because it's depend on 'upload' variable.
 
+
 // ROUTES
-app.use("/auth/", authRoutes);
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 6001; // If 3001 port doesn't work then we'll use 6001

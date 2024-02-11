@@ -44,3 +44,26 @@ export const register = async (req, res) => {
         res.status(500).json({error: err.message});
     }
 }
+
+
+// LOGGING IN
+export const login = async(req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email: email }); // Trying to find user with requested email id
+
+        if(!user) return res.status(400).json({ msg: ":( User not found!"})
+        
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch) return res.status(400).json({ msg: "Invalid creditionals!"});
+
+        // If both email and password are correct then,
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET); // Signing jwt token with user._id and pass secret string
+        delete user.password; // So that it doesn't get sent back to the front-end
+
+        // This is basic authentication. When you login then it gives you some kind of token/ validation and then user use that to sign in and verification 
+        res.status(200).json({ token, user }); // It will send user's information except his password.
+    } catch(err) {
+        res.status(500).json({error: err.message});
+    }
+}
