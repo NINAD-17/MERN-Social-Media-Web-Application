@@ -18,6 +18,7 @@ import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import postRoutes from './routes/post.js';
 import { verifyToken } from './middlewares/auth.js';
+import { createPost } from './controllers/posts.js';
 
 // CONFIGURATIONS (ALL MIDDLEWARE AS WELL AS PACKAGE CONFIGURATIONS)
 const __filename = fileURLToPath(import.meta.url); // When you use type:module then it's reqired.
@@ -47,7 +48,7 @@ const upload = multer({storage});
 // ROUTES WITH FILES
 // upload.single middleware will upload picture locally in assets folder. And register is an actual function where's the code of register.
 app.post("/auth/register", upload.single("picture"), register); // If your wants to register then app will call this API // We've not added this route to 'routes' folder and import it because it's depend on 'upload' variable.
-
+app.post("/posts", verifyToken, upload.single("picture"), createPost); // To create posts
 
 // ROUTES
 app.use("/auth", authRoutes);
