@@ -3,38 +3,38 @@ import mongoose from 'mongoose'; // To set up our model
 
 const UserSchema = new mongoose.Schema({
     firstName: {
-        type: string,
+        type: String,
         required: true,
         min: 2,
         max: 50
     },
     lastName: {
-        type: string,
+        type: String,
         required: true,
         min: 2,
         max: 50
     },
     email: {
-        type: string,
+        type: String,
         required: true,
         max: 50,
         unique: true // Duplicate emails aren't allowed
     },
     password: {
-        type: string,
+        type: String,
         required: true,
         min: 8
     },
     picturePath: {
-        type: string,
+        type: String,
         default: '',
     },
     friends: {
         type: Array,
         default: []
     },
-    location: string,
-    occupation: string,
+    location: String,
+    occupation: String,
     viewedProfile: Number,
     impressions: Number
 }, { timestamps: true }); // 'timestamps: true' will give us automatic dates for when it's created and updated

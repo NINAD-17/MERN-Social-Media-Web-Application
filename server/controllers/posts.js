@@ -68,7 +68,7 @@ export const likePost = async(req, res) => {
         const updatedPost = await Post.findByIdAndUpdate( 
             id,
             { likes: post.likes },
-            { new: true }
+            { new: true }  // we want new object
         );
 
         res.status(200).json(updatedPost); // To update the frontend we pass updaatedPost.
